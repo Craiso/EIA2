@@ -82,7 +82,7 @@ var Aufgabe2;
         crc2.moveTo(0, 400);
         crc2.lineTo(725, 0);
         crc2.closePath();
-        crc2.stroke();
+        crc2.stroke(); // Zeichne Linie 
         //Anker
         //senkrecht
         crc2.beginPath();
