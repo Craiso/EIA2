@@ -25,22 +25,22 @@ namespace L06_Class {
         }
 
         draw(): void {
-        crc3.beginPath();
-        crc3.arc(this.x, 70, 30, 0, 2 * Math.PI);
-        crc3.fillStyle = "#FAFAFA";
-        crc3.fill();
-        crc3.beginPath();
-        crc3.arc(this.x + 60, 70, 30, 0, 2 * Math.PI);
-        crc3.fillStyle = "#FAFAFA";
-        crc3.fill();
-        crc3.beginPath();
-        crc3.arc(this.x + 30, 55, 30, 0, 2 * Math.PI);
-        crc3.fillStyle = "#FAFAFA";
-        crc3.fill();
-        crc3.beginPath();
-        crc3.arc(this.x + 30, 85, 30, 0, 2 * Math.PI);
-        crc3.fillStyle = "#FAFAFA";
-        crc3.fill();
+        crc2.beginPath();
+        crc2.arc(this.x, 70, 30, 0, 2 * Math.PI);
+        crc2.fillStyle = "#FAFAFA";
+        crc2.fill();
+        crc2.beginPath();
+        crc2.arc(this.x + 60, 70, 30, 0, 2 * Math.PI);
+        crc2.fillStyle = "#FAFAFA";
+        crc2.fill();
+        crc2.beginPath();
+        crc2.arc(this.x + 30, 55, 30, 0, 2 * Math.PI);
+        crc2.fillStyle = "#FAFAFA";
+        crc2.fill();
+        crc2.beginPath();
+        crc2.arc(this.x + 30, 85, 30, 0, 2 * Math.PI);
+        crc2.fillStyle = "#FAFAFA";
+        crc2.fill();
         }
 
     }

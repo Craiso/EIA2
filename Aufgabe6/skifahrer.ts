@@ -1,10 +1,10 @@
 namespace L06_Class {
-    export class Ski extends MoveObj {
+    export class Ski extends MoveObj { //definition für bezug
         speed: number;
 
 
         constructor(_x: number, _y: number) {
-            super(_x, _y);
+            super(_x, _y); //definition von variablen aus superklasse moveOBJ
             this.speed = Math.random() + 4;
         }
 
@@ -24,18 +24,18 @@ namespace L06_Class {
         }
 
         draw(): void {
-            crc3.fillStyle = "#000000";
-            crc3.fillRect(this.x, this.y, 10, -23);
-            crc3.fillStyle = "#000000";
-            crc3.beginPath();
-            crc3.arc(this.x + 5, this.y - 23, 7, 0, 2 * Math.PI);
-            crc3.fill();
-            crc3.stroke();
-            crc3.fillStyle = "#000000";
-            crc3.beginPath();
-            crc3.moveTo(this.x + 20, this.y - 4);
-            crc3.lineTo(this.x - 20, this.y + 4);
-            crc3.stroke();
+            crc2.fillStyle = "#000000";
+            crc2.fillRect(this.x, this.y, 10, -23);
+            crc2.fillStyle = "#000000";
+            crc2.beginPath();
+            crc2.arc(this.x + 5, this.y - 23, 7, 0, 2 * Math.PI);
+            crc2.fill();
+            crc2.stroke();
+            crc2.fillStyle = "#000000";
+            crc2.beginPath();
+            crc2.moveTo(this.x + 20, this.y - 4);
+            crc2.lineTo(this.x - 20, this.y + 4);
+            crc2.stroke();
         }
 
     }

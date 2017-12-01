@@ -17,7 +17,7 @@ namespace L06_Class {
         
         for (let i: number = 0; i < 5; i++) {
             let s: Ski = new Ski(Math.random() * 30 + 800, Math.random() * 30);
-            moveObj.push(s);
+            moveObj.push(s); //fügt moveOBJ s hinzu, so oft wie schleife definiert ist
             let b: Baume = new Baume(Math.random() * 400 + 400, Math.random() * 200 + 300);
             moveObj.push(b);
             let w: Wolke = new Wolke(Math.random() * 800, Math.random() * 600);
@@ -45,16 +45,10 @@ namespace L06_Class {
         hintergrund.drawHintergrund(); //hintergrund wird gezeichnet
 
         for (let i: number = 0; i < moveObj.length; i++) {
-            let m: MoveObj = moveObj[i];
-            m.update();
+            let m: MoveObj = moveObj[i]; //length = frägt länge von array ab
+            m.update(); //lässt so oft durchlaufen
         }
 
-        /*
-                for (let i: number = 0; i < skis.length; i++) {
-                    let s: Ski = skis[i];
-                    s.update();
-                }
-        */
         window.setTimeout(animate, 20);
     }
 }

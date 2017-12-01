@@ -23,8 +23,8 @@ namespace L06_Class {
         }
 
         draw(): void {
-            crc3.fillStyle = "#000000";
-            crc3.fillRect(this.x, this.y, 1, 1);
+            crc2.fillStyle = "#000000";
+            crc2.fillRect(this.x, this.y, 1, 1);
             
         }
 
