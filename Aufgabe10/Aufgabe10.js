@@ -1,7 +1,7 @@
 var Aufgabe10;
 (function (Aufgabe10) {
-    window.addEventListener("load", createElements);
-    window.addEventListener("change", warenkorb);
+    window.addEventListener("load", createElements); //l�dt die Seite, f�hrt funktion createElements aus danach
+    window.addEventListener("change", warenkorb); //wartet bis etwas passiert und aktuallisiert den warenkorb
     var name;
     var strasse;
     var hNr;
@@ -11,7 +11,7 @@ var Aufgabe10;
     var zusatz;
     var label;
     var checkedId = [];
-    var baumArt = [Aufgabe10.posten[0].name, "" + Aufgabe10.posten[0].preis];
+    var baumArt = [Aufgabe10.posten[0].name, "" + Aufgabe10.posten[0].preis]; //Standardwerte, damit der Warenkorb nicht leer ist bzw. 0. stelle, damit 
     var halter = ["kein Halter", "0"];
     var beleuchtungW = [];
     var schmuck = [];
@@ -21,7 +21,7 @@ var Aufgabe10;
         //Baumart:
         var baumart = document.getElementById("baumart");
         var selectBox = document.createElement("select");
-        selectBox.name = "SelectBaumart";
+        selectBox.name = "SelectBaumart"; //var bekommt Name zugewiesen
         selectBox.id = "selectBaumart";
         baumart.appendChild(selectBox);
         var halterung = document.getElementById("halterung");
@@ -38,7 +38,7 @@ var Aufgabe10;
             if (Aufgabe10.posten[i].art == "Baumart") {
                 var opt = document.createElement("option");
                 opt.innerText = Aufgabe10.posten[i].name;
-                opt.id = "option" + i;
+                opt.id = "option" + i; //Baumart id +i, damit jeder eigene id hat.. somit ausw�hlbar
                 selectBox.appendChild(opt);
             }
             else if (Aufgabe10.posten[i].art == "Halter") {
@@ -61,15 +61,8 @@ var Aufgabe10;
                 selectBox2.appendChild(opt2);
             }
             else if (Aufgabe10.posten[i].art == "Schmuck") {
-                var checkB = document.createElement("input");
-                checkB.type = "checkbox";
-                checkB.name = "CheckboxSchmuckartikel";
-                checkB.value = "check";
-                checkB.id = "check" + i;
-                schmuckartikel.appendChild(checkB);
                 var label2 = document.createElement("label");
                 label2.id = "label2." + i;
-                label2.htmlFor = checkB.id;
                 label2.innerText = Aufgabe10.posten[i].name;
                 schmuckartikel.appendChild(label2);
                 var stepper = document.createElement("input");
@@ -85,6 +78,13 @@ var Aufgabe10;
                 schmuckartikel.appendChild(br);
             }
         }
+        var checker = document.getElementById("checker");
+        var check = document.createElement("input");
+        check.type = "checkbox";
+        check.name = "Adress";
+        check.value = "check";
+        check.id = "check";
+        checker.appendChild(check);
         //Deine Daten:
         var daten = document.getElementById("daten");
         name = document.createElement("input");
@@ -156,7 +156,7 @@ var Aufgabe10;
         var button = document.getElementById("button");
         var submit = document.createElement("button");
         submit.name = "Button";
-        submit.type = "button";
+        submit.type = "submit";
         submit.innerText = "Bestellung �berpr�fen";
         submit.addEventListener("mousedown", handleMouseDown);
         button.appendChild(submit);
@@ -164,7 +164,6 @@ var Aufgabe10;
     function warenkorb(_event) {
         var target = _event.target;
         var werte = [];
-        var check = [];
         var gesamtpreis = 0;
         var korb = document.getElementById("zusammenfassung");
         korb.style.width = "40%";
@@ -175,7 +174,6 @@ var Aufgabe10;
         for (var i = 0; i < Aufgabe10.posten.length; i++) {
             if (Aufgabe10.posten[i].art == "Schmuck") {
                 werte[i] = document.getElementById("stepper" + i);
-                check[i] = document.getElementById("check" + i);
             }
             if (target.value == Aufgabe10.posten[i].name && target.id == "selectBaumart") {
                 baumArt[0] = Aufgabe10.posten[i].name;
@@ -189,7 +187,7 @@ var Aufgabe10;
                 beleuchtungW[0] = Aufgabe10.posten[i].name;
                 beleuchtungW[1] = "" + Aufgabe10.posten[i].preis;
             }
-            else if (target.id == "check" + i || target.id == "stepper" + i) {
+            else if (target.id == "stepper" + i) {
                 schmuck[i] = [Aufgabe10.posten[i].name, "" + (Aufgabe10.posten[i].preis * parseInt(werte[i].value))];
             }
         }
@@ -198,12 +196,11 @@ var Aufgabe10;
         korb.innerHTML += "" + baumArt[0] + " " + baumArt[1] + "� <p></p>";
         korb.innerHTML += "" + halter[0] + " " + halter[1] + "� <p></p>";
         korb.innerHTML += "" + beleuchtungW[0] + " " + beleuchtungW[1] + "� <p></p>";
+        console.log(schmuck);
         for (var i = 0; i < werte.length; i++) {
-            if (check[i] != null) {
-                if (check[i].checked == true) {
-                    gesamtpreis += parseFloat(schmuck[i][1]);
-                    korb.innerHTML += "" + schmuck[i][0] + " " + schmuck[i][1] + "� <p></p>";
-                }
+            if (schmuck[i] != null) {
+                gesamtpreis += parseFloat(schmuck[i][1]);
+                korb.innerHTML += "" + schmuck[i][0] + " " + schmuck[i][1] + "� <p></p>";
             }
         }
         if (parseFloat(baumArt[1]) > 0 && parseFloat(halter[1]) > 0) {
@@ -212,16 +209,29 @@ var Aufgabe10;
         korb.innerHTML += " Gesamtpreis : " + gesamtpreis + "�";
     }
     function handleMouseDown(_event) {
-        var feedback = document.createElement("div");
-        if (name.checkValidity() == false || strasse.checkValidity() == false || hNr.checkValidity() == false || ort.checkValidity() == false || plz.checkValidity() == false || mail.checkValidity() == false) {
-            feedback.innerText = "Info zu deiner Bestellung: Du scheinst Deine Daten nicht korrekt angegeben zu haben. Bitte �berpr�fe sie nocheinmal.";
-            feedback.style.color = "red";
-            document.body.appendChild(feedback);
+        var check = document.getElementById("check");
+        if (check.checked == false) {
+            var feedback = document.createElement("div");
+            if (name.checkValidity() == false || strasse.checkValidity() == false || hNr.checkValidity() == false || ort.checkValidity() == false || plz.checkValidity() == false || mail.checkValidity() == false) {
+                feedback.innerText = "Info zu deiner Bestellung: Du scheinst Deine Daten nicht korrekt angegeben zu haben. Bitte �berpr�fe sie nocheinmal.";
+                feedback.style.color = "red";
+                document.body.appendChild(feedback);
+                console.log(name);
+            }
+            else {
+                feedback.innerText = "Info zu deiner Bestellung: Deine Daten wurden korrekt angegeben, vielen Dank.";
+                feedback.style.color = "green";
+                document.body.appendChild(feedback);
+            }
         }
         else {
-            feedback.innerText = "Info zu deiner Bestellung: Deine Daten wurden korrekt angegeben, vielen Dank.";
-            feedback.style.color = "green";
-            document.body.appendChild(feedback);
+            name.value = "s";
+            strasse.value = "s";
+            hNr.value = "s";
+            ort.value = "s";
+            plz.value = "99999";
+            mail.value = "s@s.de";
+            zusatz.value = "s";
         }
     }
 })(Aufgabe10 || (Aufgabe10 = {}));

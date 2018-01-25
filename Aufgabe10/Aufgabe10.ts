@@ -1,6 +1,6 @@
 namespace Aufgabe10 {
-    window.addEventListener("load", createElements);
-    window.addEventListener("change", warenkorb);
+    window.addEventListener("load", createElements); //lädt die Seite, führt funktion createElements aus danach
+    window.addEventListener("change", warenkorb); //wartet bis etwas passiert und aktuallisiert den warenkorb
 
     var name: HTMLInputElement;
     var strasse: HTMLInputElement;
@@ -12,7 +12,7 @@ namespace Aufgabe10 {
     var label: HTMLLabelElement;
     let checkedId: string[] = [];
 
-    var baumArt: string[] = [posten[0].name, "" + posten[0].preis];
+    var baumArt: string[] = [posten[0].name, "" + posten[0].preis]; //Standardwerte, damit der Warenkorb nicht leer ist bzw. 0. stelle, damit 
     var halter: string[] = ["kein Halter", "0"];
     var beleuchtungW: string[] = [];
     var schmuck: string[][] = [];
@@ -30,7 +30,7 @@ namespace Aufgabe10 {
         let baumart: HTMLDivElement = <HTMLDivElement>document.getElementById("baumart");
         let selectBox: HTMLSelectElement = document.createElement("select");
 
-        selectBox.name = "SelectBaumart";
+        selectBox.name = "SelectBaumart"; //var bekommt Name zugewiesen
         selectBox.id = "selectBaumart";
         baumart.appendChild(selectBox);
 
@@ -52,7 +52,7 @@ namespace Aufgabe10 {
             if (posten[i].art == "Baumart") {
                 var opt: HTMLElement = document.createElement("option");
                 opt.innerText = posten[i].name;
-                opt.id = "option" + i;
+                opt.id = "option" + i; //Baumart id +i, damit jeder eigene id hat.. somit auswählbar
                 selectBox.appendChild(opt);
             }
             else if (posten[i].art == "Halter") {
@@ -76,16 +76,11 @@ namespace Aufgabe10 {
                 selectBox2.appendChild(opt2);
             }
             else if (posten[i].art == "Schmuck") {
-                var checkB: HTMLInputElement = document.createElement("input");
-                checkB.type = "checkbox";
-                checkB.name = "CheckboxSchmuckartikel";
-                checkB.value = "check";
-                checkB.id = "check" + i;
-                schmuckartikel.appendChild(checkB);
+
 
                 var label2: HTMLLabelElement = document.createElement("label");
                 label2.id = "label2." + i;
-                label2.htmlFor = checkB.id;
+
                 label2.innerText = posten[i].name;
                 schmuckartikel.appendChild(label2);
 
@@ -103,8 +98,13 @@ namespace Aufgabe10 {
                 schmuckartikel.appendChild(br);
             }
         }
-
-
+        let checker: HTMLDivElement = <HTMLDivElement>document.getElementById("checker");
+        var check: HTMLInputElement = <HTMLInputElement>document.createElement("input");
+        check.type = "checkbox";
+        check.name = "Adress";
+        check.value = "check";
+        check.id = "check";
+        checker.appendChild(check);
         //Deine Daten:
         let daten: HTMLDivElement = <HTMLDivElement>document.getElementById("daten");
         name = document.createElement("input");
@@ -185,7 +185,7 @@ namespace Aufgabe10 {
         let button: HTMLDivElement = <HTMLDivElement>document.getElementById("button");
         let submit: HTMLButtonElement = document.createElement("button");
         submit.name = "Button";
-        submit.type = "button";
+        submit.type = "submit";
         submit.innerText = "Bestellung überprüfen";
         submit.addEventListener("mousedown", handleMouseDown);
         button.appendChild(submit);
@@ -194,7 +194,7 @@ namespace Aufgabe10 {
     function warenkorb(_event: Event): void {
         let target: HTMLInputElement = <HTMLInputElement>_event.target;
         let werte: HTMLInputElement[] = [];
-        let check: HTMLInputElement[] = [];
+
         let gesamtpreis: number = 0;
 
         let korb: HTMLDivElement = <HTMLDivElement>document.getElementById("zusammenfassung");
@@ -208,7 +208,7 @@ namespace Aufgabe10 {
 
             if (posten[i].art == "Schmuck") {
                 werte[i] = <HTMLInputElement>document.getElementById("stepper" + i);
-                check[i] = <HTMLInputElement>document.getElementById("check" + i);
+
             }
 
             if (target.value == posten[i].name && target.id == "selectBaumart") {
@@ -225,9 +225,9 @@ namespace Aufgabe10 {
                 beleuchtungW[1] = "" + posten[i].preis;
 
             }
-            else if (target.id == "check" + i || target.id == "stepper" + i) {
+            else if (target.id == "stepper" + i) {
                 schmuck[i] = [posten[i].name, "" + (posten[i].preis * parseInt(werte[i].value))];
-
+                //stelle 0 name, stelle 1 preis
             }
 
 
@@ -241,35 +241,52 @@ namespace Aufgabe10 {
         korb.innerHTML += "" + halter[0] + " " + halter[1] + "€ <p></p>";
 
         korb.innerHTML += "" + beleuchtungW[0] + " " + beleuchtungW[1] + "€ <p></p>";
+        console.log(schmuck);
         for (let i: number = 0; i < werte.length; i++) {
-            if (check[i] != null) {
-                if (check[i].checked == true) {
-                    gesamtpreis += parseFloat(schmuck[i][1]);
-                    korb.innerHTML += "" + schmuck[i][0] + " " + schmuck[i][1] + "€ <p></p>";
-                }
+            if (schmuck[i] != null) {
+                gesamtpreis += parseFloat(schmuck[i][1]);
+                korb.innerHTML += "" + schmuck[i][0] + " " + schmuck[i][1] + "€ <p></p>";
             }
         }
+
 
         if (parseFloat(baumArt[1]) > 0 && parseFloat(halter[1]) > 0) {
             gesamtpreis *= rabatt;
         }
+
         korb.innerHTML += " Gesamtpreis : " + gesamtpreis + "€";
 
     }
 
 
     function handleMouseDown(_event: MouseEvent): void {
-        let feedback: HTMLDivElement = document.createElement("div");
-        if (name.checkValidity() == false || strasse.checkValidity() == false || hNr.checkValidity() == false || ort.checkValidity() == false || plz.checkValidity() == false || mail.checkValidity() == false) {
-            feedback.innerText = "Info zu deiner Bestellung: Du scheinst Deine Daten nicht korrekt angegeben zu haben. Bitte überprüfe sie nocheinmal.";
-            feedback.style.color = "red";
-            document.body.appendChild(feedback);
+        let check: HTMLInputElement = <HTMLInputElement>document.getElementById("check");
+
+        if (check.checked == false) {
+            let feedback: HTMLDivElement = document.createElement("div");
+            if (name.checkValidity() == false || strasse.checkValidity() == false || hNr.checkValidity() == false || ort.checkValidity() == false || plz.checkValidity() == false || mail.checkValidity() == false) {
+                feedback.innerText = "Info zu deiner Bestellung: Du scheinst Deine Daten nicht korrekt angegeben zu haben. Bitte überprüfe sie nocheinmal.";
+                feedback.style.color = "red";
+                document.body.appendChild(feedback);
+                console.log(name);
+
+            }
+            else {
+                feedback.innerText = "Info zu deiner Bestellung: Deine Daten wurden korrekt angegeben, vielen Dank.";
+                feedback.style.color = "green";
+                document.body.appendChild(feedback);
+            }
 
         }
         else {
-            feedback.innerText = "Info zu deiner Bestellung: Deine Daten wurden korrekt angegeben, vielen Dank.";
-            feedback.style.color = "green";
-            document.body.appendChild(feedback);
+
+            name.value = "s";
+            strasse.value = "s";
+            hNr.value = "s";
+            ort.value = "s";
+            plz.value = "99999";
+            mail.value = "s@s.de";
+            zusatz.value = "s";
         }
     }
 }
